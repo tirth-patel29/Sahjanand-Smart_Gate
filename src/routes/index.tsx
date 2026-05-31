@@ -89,7 +89,7 @@ function Landing() {
         </div>
 
         <div className="mt-10 text-center text-xs text-muted-foreground">
-          IF ANY QUERY CONTACT : TIRTH PATEL (HOUSE NO. 83)
+          IF ANY QUERY CONTACT : TIRTH PATEL (HOUSE NO. 83) HELP
         </div>
       </section>
     </div>
