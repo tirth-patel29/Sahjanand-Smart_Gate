@@ -89,7 +89,7 @@ function Landing() {
         </div>
 
         <div className="mt-10 text-center text-xs text-muted-foreground">
-          Demo credentials — Admin: <code>admin@sahjanand.local</code> · Guard: <code>guard@sahjanand.local</code> · Resident: house <b>1</b>–<b>89</b> · password <code>password123</code>
+          IF ANY QUERY CONTACT : TIRTH PATEL (HOUSE NO. 83)
         </div>
       </section>
     </div>
