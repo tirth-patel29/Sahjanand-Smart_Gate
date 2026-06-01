@@ -40,19 +40,19 @@ export default function AdminPage() {
 
   return (
     <PortalShell title="Admin Dashboard" subtitle="Manage your society — houses, residents, notices and reports">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-6">
         <StatCard label="Houses" value={stats.houses} accent="primary" />
         <StatCard label="Residents" value={stats.residents} accent="info" />
         <StatCard label="Visitors Today" value={stats.visitorsToday} accent="success" />
-        <StatCard label="All-time Visitors" value={stats.totalVisitors} accent="warning" />
+        <StatCard label="All-time" value={stats.totalVisitors} accent="warning" />
       </div>
 
       <Tabs defaultValue="reports">
-        <TabsList className="glass">
-          <TabsTrigger value="reports">Reports</TabsTrigger>
-          <TabsTrigger value="houses"><Home className="mr-1.5 h-4 w-4" />Houses</TabsTrigger>
-          <TabsTrigger value="residents"><Users className="mr-1.5 h-4 w-4" />Residents</TabsTrigger>
-          <TabsTrigger value="notices"><Megaphone className="mr-1.5 h-4 w-4" />Notices</TabsTrigger>
+        <TabsList className="glass grid grid-cols-2 md:grid-cols-4 w-full h-auto">
+          <TabsTrigger value="reports" className="text-xs sm:text-sm">Reports</TabsTrigger>
+          <TabsTrigger value="houses" className="gap-1 text-xs sm:text-sm"><Home className="h-3 w-3 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Houses</span></TabsTrigger>
+          <TabsTrigger value="residents" className="gap-1 text-xs sm:text-sm"><Users className="h-3 w-3 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Residents</span></TabsTrigger>
+          <TabsTrigger value="notices" className="gap-1 text-xs sm:text-sm"><Megaphone className="h-3 w-3 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Notices</span></TabsTrigger>
         </TabsList>
         <TabsContent value="reports" className="mt-5"><Reports /></TabsContent>
         <TabsContent value="houses" className="mt-5"><HousesTable /></TabsContent>

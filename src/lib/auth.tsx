@@ -50,7 +50,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (profile) {
         setHouseId(profile.house_id ?? null);
         setFullName(profile.full_name ?? null);
-        setMustChangePassword(profile.must_change_password ?? false);
+        // Only show password change modal for residents (not guards/admins)
+        const shouldChangePassword = profile.must_change_password === true && r === 'resident';
+        setMustChangePassword(shouldChangePassword);
         
         const houses = (profile as { houses?: { house_number?: string } | null } | null)?.houses;
         setHouseNumber(houses?.house_number ?? null);
@@ -80,6 +82,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(data.session);
       if (data.session?.user) {
         await loadMeta(data.session.user.id);
+      } else {
+        // No valid session - clear all auth state
+        setRole(null);
+        setHouseId(null);
+        setHouseNumber(null);
+        setFullName(null);
+        setMustChangePassword(false);
       }
       setLoading(false);
     });
@@ -97,6 +106,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     mustChangePassword,
     loading,
     signOut: async () => {
+      // Clear all state before signing out
+      setRole(null);
+      setHouseId(null);
+      setHouseNumber(null);
+      setFullName(null);
+      setMustChangePassword(false);
+      setSession(null);
       await supabase.auth.signOut();
     },
     refresh: async () => {

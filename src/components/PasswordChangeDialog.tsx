@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +20,7 @@ interface PasswordChangeDialogProps {
  * Resident must change their temporary password before accessing the portal
  */
 export function PasswordChangeDialog({ open, onComplete }: PasswordChangeDialogProps) {
+  const { refresh } = useAuth();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -87,6 +89,9 @@ export function PasswordChangeDialog({ open, onComplete }: PasswordChangeDialogP
 
       // Mark password as changed in profiles table
       await markPasswordChanged();
+
+      // Refresh auth context to clear mustChangePassword flag
+      await refresh();
 
       toast.success("Password changed successfully!");
       setCurrentPassword("");
