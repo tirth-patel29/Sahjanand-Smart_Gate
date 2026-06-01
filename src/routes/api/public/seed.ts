@@ -42,12 +42,20 @@ export async function seedDatabase() {
     // Admin
     const admin = await ensureUser('admin@sahjanand.local', 'password123', { name: 'Society Admin' })
     await supabaseAdmin.from('user_roles').upsert({ user_id: admin.id, role: 'admin' }, { onConflict: 'user_id,role' })
-    await supabaseAdmin.from('profiles').upsert({ id: admin.id, full_name: 'Society Admin' })
+    await supabaseAdmin.from('profiles').upsert({ 
+      id: admin.id, 
+      full_name: 'Society Admin',
+      must_change_password: false  // Admin doesn't need password change
+    })
 
     // Guard
     const guard = await ensureUser('guard@sahjanand.local', 'password123', { name: 'Main Gate Guard' })
     await supabaseAdmin.from('user_roles').upsert({ user_id: guard.id, role: 'guard' }, { onConflict: 'user_id,role' })
-    await supabaseAdmin.from('profiles').upsert({ id: guard.id, full_name: 'Main Gate Guard' })
+    await supabaseAdmin.from('profiles').upsert({ 
+      id: guard.id, 
+      full_name: 'Main Gate Guard',
+      must_change_password: false  // Guard doesn't need password change
+    })
 
     // Residents for all houses
     const { data: houses } = await supabaseAdmin.from('houses').select('id, house_number, owner_name, mobile_number')
@@ -61,6 +69,7 @@ export async function seedDatabase() {
         full_name: h.owner_name,
         mobile: h.mobile_number,
         house_id: h.id,
+        must_change_password: true  // Residents must change password on first login
       })
       created++
     }

@@ -65,7 +65,7 @@ async function seedUsers() {
   console.log('📝 Preparing 1 guard user...');
   usersToCreate.push({
     email: 'guard@sahjanand.local',
-    password: 'tirth@123//.@123',
+    password: 'password123',
     metadata: {
       full_name: 'Guard User',
       role: 'guard',
@@ -76,7 +76,7 @@ async function seedUsers() {
   console.log('📝 Preparing 1 admin user...');
   usersToCreate.push({
     email: 'admin@sahjanand.local',
-    password: 'Man@123.//@123',
+    password: 'password123',
     metadata: {
       full_name: 'Admin User',
       role: 'admin',
@@ -195,8 +195,8 @@ async function seedUsers() {
   if (successCount > 0) {
     console.log('✨ Sample credentials:');
     console.log('  Resident: house1@sahjanand.local / sahjanand@1');
-    console.log('  Guard: guard@sahjanand.local / tirth@123//.@123');
-    console.log('  Admin: admin@sahjanand.local / Man@123.//@123\n');
+    console.log('  Guard: guard@sahjanand.local / password123');
+    console.log('  Admin: admin@sahjanand.local / password123\n');
   }
 
   if (errorCount > 0) {

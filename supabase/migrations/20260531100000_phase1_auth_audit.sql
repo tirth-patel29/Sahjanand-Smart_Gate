@@ -299,7 +299,7 @@ BEGIN
     
     -- Log to audit_logs
     PERFORM public.log_audit(
-      'visitor_' || lower(NEW.status),
+      'visitor_' || lower(NEW.status::text),
       'visitor',
       NEW.id,
       jsonb_build_object('before_status', OLD.status, 'after_status', NEW.status),
