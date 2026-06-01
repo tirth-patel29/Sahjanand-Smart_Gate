@@ -1,37 +1,32 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/lib/auth";
-import { PortalShell, StatCard } from "@/components/PortalShell";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { toast } from "sonner";
-import { LogIn, LogOut, Loader2, Search } from "lucide-react";
-
-export const Route = createFileRoute("/guard")({
-  head: () => ({ meta: [{ title: "Guard Portal — Sahjanand Smart Gate" }] }),
-  component: GuardPortal,
-});
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { supabase } from '@/integrations/supabase/client'
+import { useAuth } from '@/lib/auth'
+import { PortalShell, StatCard } from '@/components/PortalShell'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { toast } from 'sonner'
+import { LogIn, LogOut, Loader2, Search } from 'lucide-react'
 
 type V = {
   id: string; full_name: string; mobile: string; vehicle_number: string | null; purpose: string | null;
-  visitor_count: number; status: "pending"|"approved"|"rejected"|"wait_at_gate"|"entered"|"exited";
-  created_at: string; entered_at: string|null; exited_at: string|null;
+  visitor_count: number; status: 'pending' | 'approved' | 'rejected' | 'wait_at_gate' | 'entered' | 'exited';
+  created_at: string; entered_at: string | null; exited_at: string | null;
   houses?: { house_number: string } | null;
-};
+}
 
-function GuardPortal() {
-  const { session, role, loading } = useAuth();
-  const nav = useNavigate();
-  const [items, setItems] = useState<V[]>([]);
-  const [q, setQ] = useState("");
-  const [tab, setTab] = useState("approved");
+export default function GuardPage() {
+  const { session, role, loading } = useAuth()
+  const nav = useNavigate()
+  const [items, setItems] = useState<V[]>([])
+  const [q, setQ] = useState('')
+  const [tab, setTab] = useState('approved')
 
   useEffect(() => {
-    if (!loading && (!session || role !== "guard")) nav({ to: "/login", search: { role: "guard" } });
-  }, [loading, session, role, nav]);
+    if (!loading && (!session || role !== 'guard')) nav('/login?role=guard')
+  }, [loading, session, role, nav])
 
   useEffect(() => {
     const load = async () => {

@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import type { ReactNode } from "react";
-import { Building2, LogOut, Moon, Sun } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/auth";
-import { useEffect, useState } from "react";
+import { Link, useNavigate } from 'react-router-dom'
+import type { ReactNode } from 'react'
+import { Building2, LogOut, Moon, Sun } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { useAuth } from '@/lib/auth'
+import { useEffect, useState } from 'react'
 
 export function ThemeToggle() {
   const [dark, setDark] = useState(false);
@@ -53,7 +53,7 @@ export function PortalShell({ title, subtitle, children }: { title: string; subt
               </div>
             </div>
             <ThemeToggle />
-            <Button variant="ghost" size="icon" onClick={async () => { await signOut(); nav({ to: "/" }); }} aria-label="Sign out">
+            <Button variant="ghost" size="icon" onClick={async () => { await signOut(); nav('/') }} aria-label="Sign out">
               <LogOut className="h-5 w-5" />
             </Button>
           </div>

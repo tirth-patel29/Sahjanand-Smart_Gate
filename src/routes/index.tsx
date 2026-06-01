@@ -1,33 +1,24 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect } from "react";
-import { ShieldCheck, Home, UserCog, ScanLine, ArrowRight, Sparkles } from "lucide-react";
-import { ThemeToggle } from "@/components/PortalShell";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Sahjanand Smart Gate — Modern Society Visitor Management" },
-      { name: "description", content: "QR-based visitor entry, instant resident approvals, guard dashboard, and admin reports — all in one beautiful app." },
-    ],
-  }),
-  component: Landing,
-});
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { ShieldCheck, Home, UserCog, ScanLine, ArrowRight, Sparkles } from 'lucide-react'
+import { ThemeToggle } from '@/components/PortalShell'
 
 const portals = [
-  { to: "/visitor", title: "Visitor", desc: "Request entry at the gate", icon: ScanLine, accent: "from-cyan-400/30" },
-  { to: "/login?role=resident", title: "Resident", desc: "Approve visitors instantly", icon: Home, accent: "from-indigo-400/30" },
-  { to: "/login?role=guard", title: "Guard", desc: "Manage gate operations", icon: ShieldCheck, accent: "from-purple-400/30" },
-  { to: "/login?role=admin", title: "Admin", desc: "Society management hub", icon: UserCog, accent: "from-fuchsia-400/30" },
-];
+  { to: '/visitor', title: 'Visitor', desc: 'Request entry at the gate', icon: ScanLine, accent: 'from-cyan-400/30' },
+  { to: '/login?role=resident', title: 'Resident', desc: 'Approve visitors instantly', icon: Home, accent: 'from-indigo-400/30' },
+  { to: '/login?role=guard', title: 'Guard', desc: 'Manage gate operations', icon: ShieldCheck, accent: 'from-purple-400/30' },
+  { to: '/login?role=admin', title: 'Admin', desc: 'Society management hub', icon: UserCog, accent: 'from-fuchsia-400/30' },
+]
 
-function Landing() {
+export default function LandingPage() {
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (localStorage.getItem("sahjanand_seeded") === "1") return;
-    fetch("/api/public/seed", { method: "POST" })
-      .then((r) => r.ok && localStorage.setItem("sahjanand_seeded", "1"))
-      .catch(() => {});
-  }, []);
+    if (typeof window === 'undefined') return
+    if (localStorage.getItem('sahjanand_seeded') === '1') return
+    fetch('/api/public/seed', { method: 'POST' })
+      .then((r) => r.ok && localStorage.setItem('sahjanand_seeded', '1'))
+      .catch(() => {})
+  }, [])
+
   return (
     <div className="min-h-screen gradient-soft">
       <header className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6">

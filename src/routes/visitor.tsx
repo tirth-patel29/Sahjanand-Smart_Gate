@@ -1,42 +1,32 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card } from "@/components/ui/card";
-import { toast } from "sonner";
-import { CheckCircle2, Building2, Loader2, ArrowLeft, Sparkles } from "lucide-react";
-import { ThemeToggle } from "@/components/PortalShell";
+import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { supabase } from '@/integrations/supabase/client'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Card } from '@/components/ui/card'
+import { toast } from 'sonner'
+import { CheckCircle2, Building2, Loader2, ArrowLeft, Sparkles } from 'lucide-react'
+import { ThemeToggle } from '@/components/PortalShell'
 
-export const Route = createFileRoute("/visitor")({
-  head: () => ({
-    meta: [
-      { title: "Visitor Entry — Sahjanand Smart Gate" },
-      { name: "description", content: "Submit your entry request at the society gate." },
-    ],
-  }),
-  component: VisitorPage,
-});
+type House = { id: string; house_number: string }
 
-type House = { id: string; house_number: string };
-
-function VisitorPage() {
-  const [houses, setHouses] = useState<House[]>([]);
-  const [qrToken, setQrToken] = useState<string | null>(null);
-  const [done, setDone] = useState<"approved" | "pending" | null>(null);
+export default function VisitorPage() {
+  const [houses, setHouses] = useState<House[]>([])
+  const [qrToken, setQrToken] = useState<string | null>(null)
+  const [done, setDone] = useState<'approved' | 'pending' | null>(null)
 
   useEffect(() => {
-    supabase.from("houses").select("id, house_number").order("house_number").then(({ data }) => {
-      setHouses(((data ?? []) as House[]).sort((a, b) => Number(a.house_number) - Number(b.house_number)));
-    });
-    if (typeof window !== "undefined") {
-      const t = new URLSearchParams(window.location.search).get("qr");
-      if (t) setQrToken(t);
+    supabase.from('houses').select('id, house_number').order('house_number').then(({ data }) => {
+      setHouses(((data ?? []) as House[]).sort((a, b) => Number(a.house_number) - Number(b.house_number)))
+    })
+    if (typeof window !== 'undefined') {
+      const t = new URLSearchParams(window.location.search).get('qr')
+      if (t) setQrToken(t)
     }
-  }, []);
+  }, [])
 
   if (done) return <Confirmation status={done} />;
 

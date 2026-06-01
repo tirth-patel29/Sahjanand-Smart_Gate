@@ -1,47 +1,42 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/lib/auth";
-import { PortalShell, StatCard } from "@/components/PortalShell";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
-import { toast } from "sonner";
-import { Loader2, Download, Plus, Megaphone, Home, Users } from "lucide-react";
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { supabase } from '@/integrations/supabase/client'
+import { useAuth } from '@/lib/auth'
+import { PortalShell, StatCard } from '@/components/PortalShell'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog'
+import { toast } from 'sonner'
+import { Loader2, Download, Plus, Megaphone, Home, Users } from 'lucide-react'
 
-export const Route = createFileRoute("/admin")({
-  head: () => ({ meta: [{ title: "Admin Portal — Sahjanand Smart Gate" }] }),
-  component: AdminPortal,
-});
-
-function AdminPortal() {
-  const { session, role, loading } = useAuth();
-  const nav = useNavigate();
+export default function AdminPage() {
+  const { session, role, loading } = useAuth()
+  const nav = useNavigate()
 
   useEffect(() => {
-    if (!loading && (!session || role !== "admin")) nav({ to: "/login", search: { role: "admin" } });
-  }, [loading, session, role, nav]);
+    if (!loading && (!session || role !== 'admin')) nav('/login?role=admin')
+  }, [loading, session, role, nav])
 
-  const [stats, setStats] = useState({ houses: 0, residents: 0, visitorsToday: 0, totalVisitors: 0 });
+  const [stats, setStats] = useState({ houses: 0, residents: 0, visitorsToday: 0, totalVisitors: 0 })
   useEffect(() => {
     const load = async () => {
       const [h, r, t, vt] = await Promise.all([
-        supabase.from("houses").select("*", { count: "exact", head: true }),
-        supabase.from("profiles").select("*", { count: "exact", head: true }).not("house_id", "is", null),
-        supabase.from("visitors").select("*", { count: "exact", head: true }).gte("created_at", new Date(new Date().setHours(0, 0, 0, 0)).toISOString()),
-        supabase.from("visitors").select("*", { count: "exact", head: true }),
-      ]);
-      setStats({ houses: h.count ?? 0, residents: r.count ?? 0, visitorsToday: t.count ?? 0, totalVisitors: vt.count ?? 0 });
-    };
-    load();
-  }, []);
+        supabase.from('houses').select('*', { count: 'exact', head: true }),
+        supabase.from('profiles').select('*', { count: 'exact', head: true }).not('house_id', 'is', null),
+        supabase.from('visitors').select('*', { count: 'exact', head: true }).gte('created_at', new Date(new Date().setHours(0, 0, 0, 0)).toISOString()),
+        supabase.from('visitors').select('*', { count: 'exact', head: true }),
+      ])
+      setStats({ houses: h.count ?? 0, residents: r.count ?? 0, visitorsToday: t.count ?? 0, totalVisitors: vt.count ?? 0 })
+    }
+    load()
+  }, [])
 
-  if (loading) return <div className="min-h-screen grid place-items-center gradient-soft"><Loader2 className="h-6 w-6 animate-spin" /></div>;
+  if (loading) return <div className="min-h-screen grid place-items-center gradient-soft"><Loader2 className="h-6 w-6 animate-spin" /></div>
 
   return (
     <PortalShell title="Admin Dashboard" subtitle="Manage your society — houses, residents, notices and reports">
@@ -65,7 +60,7 @@ function AdminPortal() {
         <TabsContent value="notices" className="mt-5"><NoticesAdmin /></TabsContent>
       </Tabs>
     </PortalShell>
-  );
+  )
 }
 
 type Report = {

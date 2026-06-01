@@ -1,40 +1,35 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/lib/auth";
-import { PortalShell, StatCard } from "@/components/PortalShell";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
-import { Check, X, Clock, Plus, Trash2, QrCode, Bell, UserCircle2, Megaphone, Loader2 } from "lucide-react";
-
-export const Route = createFileRoute("/resident")({
-  head: () => ({ meta: [{ title: "Resident Portal — Sahjanand Smart Gate" }] }),
-  component: ResidentPortal,
-});
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { supabase } from '@/integrations/supabase/client'
+import { useAuth } from '@/lib/auth'
+import { PortalShell, StatCard } from '@/components/PortalShell'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog'
+import { Badge } from '@/components/ui/badge'
+import { toast } from 'sonner'
+import { Check, X, Clock, Plus, Trash2, QrCode, Bell, UserCircle2, Megaphone, Loader2 } from 'lucide-react'
 
 type Visitor = {
   id: string; house_id: string; full_name: string; mobile: string; vehicle_number: string | null;
   purpose: string | null; visitor_count: number; photo_url: string | null;
-  status: "pending" | "approved" | "rejected" | "wait_at_gate" | "entered" | "exited";
+  status: 'pending' | 'approved' | 'rejected' | 'wait_at_gate' | 'entered' | 'exited';
   created_at: string; entered_at: string | null; exited_at: string | null;
-};
+}
 
-function ResidentPortal() {
-  const { session, role, houseId, loading } = useAuth();
-  const nav = useNavigate();
-  const [visitors, setVisitors] = useState<Visitor[]>([]);
-  const [tab, setTab] = useState("pending");
+export default function ResidentPage() {
+  const { session, role, houseId, loading } = useAuth()
+  const nav = useNavigate()
+  const [visitors, setVisitors] = useState<Visitor[]>([])
+  const [tab, setTab] = useState('pending')
 
   useEffect(() => {
-    if (!loading && (!session || role !== "resident")) nav({ to: "/login", search: { role: "resident" } });
-  }, [loading, session, role, nav]);
+    if (!loading && (!session || role !== 'resident')) nav('/login?role=resident')
+  }, [loading, session, role, nav])
 
   useEffect(() => {
     if (!houseId) return;
