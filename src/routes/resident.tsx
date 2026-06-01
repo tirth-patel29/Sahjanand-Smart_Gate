@@ -60,7 +60,7 @@ export default function ResidentPage() {
 
   return (
     <PortalShell title="Resident Dashboard" subtitle="Manage visitors and guest passes for your home">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-6">
         <StatCard label="Pending" value={groups.pending.length} accent="warning" />
         <StatCard label="Approved" value={groups.approved.length} accent="success" />
         <StatCard label="Rejected" value={groups.rejected.length} accent="danger" />
@@ -68,12 +68,12 @@ export default function ResidentPage() {
       </div>
 
       <Tabs value={tab} onValueChange={setTab}>
-        <TabsList className="glass">
-          <TabsTrigger value="pending"><Bell className="mr-1.5 h-4 w-4" />Requests</TabsTrigger>
-          <TabsTrigger value="history">History</TabsTrigger>
-          <TabsTrigger value="frequent"><UserCircle2 className="mr-1.5 h-4 w-4" />Frequent</TabsTrigger>
-          <TabsTrigger value="passes"><QrCode className="mr-1.5 h-4 w-4" />Guest Passes</TabsTrigger>
-          <TabsTrigger value="notices"><Megaphone className="mr-1.5 h-4 w-4" />Notices</TabsTrigger>
+        <TabsList className="glass overflow-x-auto flex w-full justify-start sm:grid sm:grid-cols-5">
+          <TabsTrigger value="pending" className="text-xs sm:text-sm gap-1 py-2 px-2 sm:px-3 whitespace-nowrap sm:whitespace-normal"><Bell className="h-3.5 w-3.5 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Requests</span><span className="sm:hidden">Req.</span></TabsTrigger>
+          <TabsTrigger value="history" className="text-xs sm:text-sm py-2 px-2 sm:px-3 whitespace-nowrap">History</TabsTrigger>
+          <TabsTrigger value="frequent" className="text-xs sm:text-sm gap-1 py-2 px-2 sm:px-3 whitespace-nowrap sm:whitespace-normal"><UserCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Frequent</span><span className="sm:hidden">Freq.</span></TabsTrigger>
+          <TabsTrigger value="passes" className="text-xs sm:text-sm gap-1 py-2 px-2 sm:px-3 whitespace-nowrap sm:whitespace-normal"><QrCode className="h-3.5 w-3.5 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Guest Passes</span><span className="sm:hidden">Passes</span></TabsTrigger>
+          <TabsTrigger value="notices" className="text-xs sm:text-sm gap-1 py-2 px-2 sm:px-3 whitespace-nowrap sm:whitespace-normal"><Megaphone className="h-3.5 w-3.5 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Notices</span><span className="sm:hidden">Note</span></TabsTrigger>
         </TabsList>
 
         <TabsContent value="pending" className="mt-5">
@@ -126,15 +126,15 @@ function VisitorCard({ v, onAct, compact }: { v: Visitor; onAct: (id: string, s:
         <StatusBadge status={v.status} />
       </div>
       {!compact && (v.status === "pending" || v.status === "wait_at_gate") && (
-        <div className="mt-4 grid grid-cols-3 gap-2">
-          <Button size="sm" className="bg-[var(--success)] hover:bg-[var(--success)]/90 text-white border-0" onClick={() => onAct(v.id, "approved")}>
-            <Check className="h-4 w-4 mr-1" />Approve
+        <div className="mt-3 sm:mt-4 grid grid-cols-3 gap-1 sm:gap-2">
+          <Button className="h-8 sm:h-9 bg-[var(--success)] hover:bg-[var(--success)]/90 text-white border-0 text-xs" onClick={() => onAct(v.id, "approved")}>
+            <Check className="h-3 w-3 mr-0.5" /><span className="hidden sm:inline">Approve</span><span className="sm:hidden">App</span>
           </Button>
-          <Button size="sm" variant="outline" onClick={() => onAct(v.id, "wait_at_gate")}>
-            <Clock className="h-4 w-4 mr-1" />Wait
+          <Button variant="outline" className="h-8 sm:h-9 text-xs" onClick={() => onAct(v.id, "wait_at_gate")}>
+            <Clock className="h-3 w-3 mr-0.5" /><span className="hidden sm:inline">Wait</span>
           </Button>
-          <Button size="sm" variant="destructive" onClick={() => onAct(v.id, "rejected")}>
-            <X className="h-4 w-4 mr-1" />Reject
+          <Button variant="destructive" className="h-8 sm:h-9 text-xs" onClick={() => onAct(v.id, "rejected")}>
+            <X className="h-3 w-3 mr-0.5" /><span className="hidden sm:inline">Reject</span><span className="sm:hidden">Rej</span>
           </Button>
         </div>
       )}
@@ -181,19 +181,19 @@ function FrequentList({ houseId }: { houseId: string }) {
           <DialogTrigger asChild><Button className="gradient-hero text-white border-0"><Plus className="h-4 w-4 mr-1" />Add Frequent Visitor</Button></DialogTrigger>
           <DialogContent>
             <DialogHeader><DialogTitle>Add Frequent Visitor</DialogTitle></DialogHeader>
-            <div className="space-y-3">
-              <div><Label>Name</Label><Input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></div>
-              <div><Label>Mobile</Label><Input value={f.mobile} onChange={(e) => setF({ ...f, mobile: e.target.value })} /></div>
-              <div><Label>Category</Label>
+            <div className="space-y-2 sm:space-y-3">
+              <div><Label className="text-xs sm:text-sm">Name</Label><Input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} className="text-xs sm:text-sm h-8 sm:h-10" /></div>
+              <div><Label className="text-xs sm:text-sm">Mobile</Label><Input value={f.mobile} onChange={(e) => setF({ ...f, mobile: e.target.value })} className="text-xs sm:text-sm h-8 sm:h-10" /></div>
+              <div><Label className="text-xs sm:text-sm">Category</Label>
                 <Select value={f.category} onValueChange={(v) => setF({ ...f, category: v })}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="text-xs sm:text-sm h-8 sm:h-10"><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    {["maid", "driver", "cook", "tutor", "family", "other"].map((c) => <SelectItem key={c} value={c} className="capitalize">{c}</SelectItem>)}
+                    {["maid", "driver", "cook", "tutor", "family", "other"].map((c) => <SelectItem key={c} value={c} className="capitalize text-xs">{c}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
             </div>
-            <DialogFooter><Button onClick={add} className="gradient-hero text-white border-0">Add</Button></DialogFooter>
+            <DialogFooter><Button onClick={add} size="sm" className="gradient-hero text-white border-0 h-8 sm:h-10 text-xs sm:text-sm">Add</Button></DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
@@ -246,10 +246,10 @@ function GuestPasses({ houseId }: { houseId: string }) {
             <div className="space-y-3">
               <div><Label>Guest Name</Label><Input value={f.guest_name} onChange={(e) => setF({ ...f, guest_name: e.target.value })} /></div>
               <div><Label>Mobile</Label><Input value={f.mobile} onChange={(e) => setF({ ...f, mobile: e.target.value })} /></div>
-              <div className="grid grid-cols-3 gap-2">
-                <div><Label>Date</Label><Input type="date" value={f.valid_date} onChange={(e) => setF({ ...f, valid_date: e.target.value })} /></div>
-                <div><Label>From</Label><Input type="time" value={f.start_time} onChange={(e) => setF({ ...f, start_time: e.target.value })} /></div>
-                <div><Label>To</Label><Input type="time" value={f.end_time} onChange={(e) => setF({ ...f, end_time: e.target.value })} /></div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <div><Label className="text-xs sm:text-sm">Date</Label><Input type="date" value={f.valid_date} onChange={(e) => setF({ ...f, valid_date: e.target.value })} className="text-xs sm:text-sm h-8 sm:h-10" /></div>
+                  <div><Label className="text-xs sm:text-sm">From</Label><Input type="time" value={f.start_time} onChange={(e) => setF({ ...f, start_time: e.target.value })} className="text-xs sm:text-sm h-8 sm:h-10" /></div>
+                  <div><Label className="text-xs sm:text-sm">To</Label><Input type="time" value={f.end_time} onChange={(e) => setF({ ...f, end_time: e.target.value })} className="text-xs sm:text-sm h-8 sm:h-10" /></div>
               </div>
             </div>
             <DialogFooter><Button onClick={add} className="gradient-hero text-white border-0">Generate</Button></DialogFooter>
@@ -262,14 +262,14 @@ function GuestPasses({ houseId }: { houseId: string }) {
             const url = typeof window !== "undefined" ? `${window.location.origin}/visitor?qr=${p.qr_token}` : "";
             const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(url)}`;
             return (
-              <Card key={p.id} className="glass rounded-2xl p-4 flex items-center gap-4">
-                <img src={qrSrc} alt="QR" className="h-32 w-32 rounded-xl bg-white p-2" />
+              <Card key={p.id} className="glass rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                <img src={qrSrc} alt="QR" className="h-24 w-24 sm:h-32 sm:w-32 rounded-xl bg-white p-1 sm:p-2 flex-shrink-0 mx-auto sm:mx-0" />
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold truncate">{p.guest_name}</div>
+                  <div className="font-semibold text-sm truncate">{p.guest_name}</div>
                   <div className="text-xs text-muted-foreground">{p.mobile}</div>
-                  <div className="text-xs mt-1">{p.valid_date} · {p.start_time}–{p.end_time}</div>
+                  <div className="text-xs text-muted-foreground mt-1">{p.valid_date} · {p.start_time}–{p.end_time}</div>
                   <Badge className="mt-2" variant={p.used ? "secondary" : "default"}>{p.used ? "Used" : "Active"}</Badge>
-                  <div className="mt-2"><Button size="sm" variant="ghost" onClick={() => del(p.id)}><Trash2 className="h-4 w-4" /></Button></div>
+                  <div className="mt-2"><Button size="sm" variant="ghost" onClick={() => del(p.id)} className="h-8 w-8 p-0"><Trash2 className="h-3.5 w-3.5" /></Button></div>
                 </div>
               </Card>
             );

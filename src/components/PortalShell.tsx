@@ -79,9 +79,9 @@ export function StatCard({ label, value, accent }: { label: string; value: numbe
     info: "from-[color-mix(in_oklab,var(--accent)_25%,transparent)] to-transparent",
   }[accent ?? "primary"];
   return (
-    <div className={`glass rounded-2xl p-5 bg-gradient-to-br ${color}`}>
+    <div className={`glass rounded-2xl p-3 sm:p-5 bg-gradient-to-br ${color}`}>
       <div className="text-xs uppercase tracking-wide text-muted-foreground">{label}</div>
-      <div className="mt-2 text-3xl font-semibold">{value}</div>
+      <div className="mt-2 text-2xl sm:text-3xl font-semibold">{value}</div>
     </div>
   );
 }

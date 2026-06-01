@@ -40,7 +40,7 @@ export default function AdminPage() {
 
   return (
     <PortalShell title="Admin Dashboard" subtitle="Manage your society — houses, residents, notices and reports">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-6">
         <StatCard label="Houses" value={stats.houses} accent="primary" />
         <StatCard label="Residents" value={stats.residents} accent="info" />
         <StatCard label="Visitors Today" value={stats.visitorsToday} accent="success" />
@@ -48,11 +48,11 @@ export default function AdminPage() {
       </div>
 
       <Tabs defaultValue="reports">
-        <TabsList className="glass grid grid-cols-2 md:grid-cols-4 w-full h-auto">
-          <TabsTrigger value="reports" className="text-xs sm:text-sm">Reports</TabsTrigger>
-          <TabsTrigger value="houses" className="gap-1 text-xs sm:text-sm"><Home className="h-3 w-3 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Houses</span></TabsTrigger>
-          <TabsTrigger value="residents" className="gap-1 text-xs sm:text-sm"><Users className="h-3 w-3 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Residents</span></TabsTrigger>
-          <TabsTrigger value="notices" className="gap-1 text-xs sm:text-sm"><Megaphone className="h-3 w-3 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Notices</span></TabsTrigger>
+        <TabsList className="glass grid grid-cols-2 sm:grid-cols-4 w-full h-auto p-1 gap-1 sm:gap-0">
+          <TabsTrigger value="reports" className="text-xs sm:text-sm py-2">Reports</TabsTrigger>
+          <TabsTrigger value="houses" className="gap-1 text-xs sm:text-sm py-2"><Home className="h-3.5 w-3.5 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Houses</span></TabsTrigger>
+          <TabsTrigger value="residents" className="gap-1 text-xs sm:text-sm py-2"><Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Residents</span></TabsTrigger>
+          <TabsTrigger value="notices" className="gap-1 text-xs sm:text-sm py-2"><Megaphone className="h-3.5 w-3.5 sm:h-4 sm:w-4" /><span className="hidden sm:inline">Notices</span></TabsTrigger>
         </TabsList>
         <TabsContent value="reports" className="mt-5"><Reports /></TabsContent>
         <TabsContent value="houses" className="mt-5"><HousesTable /></TabsContent>
@@ -103,18 +103,18 @@ function Reports() {
 
   return (
     <div className="space-y-4">
-      <Card className="glass rounded-2xl p-5 grid sm:grid-cols-5 gap-3">
-        <div><Label>From</Label><Input type="date" value={from} onChange={(e) => setFrom(e.target.value)} /></div>
-        <div><Label>To</Label><Input type="date" value={to} onChange={(e) => setTo(e.target.value)} /></div>
-        <div><Label>House #</Label><Input value={house} onChange={(e) => setHouse(e.target.value)} placeholder="e.g. 12" /></div>
-        <div><Label>Visitor Name</Label><Input value={name} onChange={(e) => setName(e.target.value)} /></div>
-        <div className="flex items-end gap-2">
-          <Button onClick={load} className="gradient-hero text-white border-0">Apply</Button>
-          <Button variant="outline" onClick={csv}><Download className="h-4 w-4 mr-1" />CSV</Button>
+      <Card className="glass rounded-2xl p-3 sm:p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2 sm:gap-3">
+        <div><Label className="text-xs sm:text-sm">From</Label><Input type="date" value={from} onChange={(e) => setFrom(e.target.value)} className="text-xs sm:text-sm h-8 sm:h-10" /></div>
+        <div><Label className="text-xs sm:text-sm">To</Label><Input type="date" value={to} onChange={(e) => setTo(e.target.value)} className="text-xs sm:text-sm h-8 sm:h-10" /></div>
+        <div><Label className="text-xs sm:text-sm">House #</Label><Input value={house} onChange={(e) => setHouse(e.target.value)} placeholder="e.g. 12" className="text-xs sm:text-sm h-8 sm:h-10" /></div>
+        <div><Label className="text-xs sm:text-sm">Name</Label><Input value={name} onChange={(e) => setName(e.target.value)} className="text-xs sm:text-sm h-8 sm:h-10" /></div>
+        <div className="flex items-end gap-1.5 sm:gap-2">
+          <Button onClick={load} size="sm" className="gradient-hero text-white border-0 h-8 sm:h-10 text-xs sm:text-sm">Apply</Button>
+          <Button variant="outline" size="sm" onClick={csv} className="h-8 sm:h-10 text-xs sm:text-sm"><Download className="h-3.5 w-3.5 mr-1" />CSV</Button>
         </div>
       </Card>
-      <Card className="glass rounded-2xl overflow-hidden">
-        <Table>
+      <Card className="glass rounded-2xl overflow-x-auto">
+        <Table className="text-xs sm:text-sm">
           <TableHeader>
             <TableRow><TableHead>Date</TableHead><TableHead>Visitor</TableHead><TableHead>Mobile</TableHead><TableHead>House</TableHead><TableHead>Purpose</TableHead><TableHead>Status</TableHead></TableRow>
           </TableHeader>

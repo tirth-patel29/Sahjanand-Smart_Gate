@@ -91,7 +91,7 @@ export default function GuardPage() {
 
   return (
     <PortalShell title="Gate Operations" subtitle="Track entries and exits in real time">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-6">
         <StatCard label="Awaiting" value={groups.pending.length} accent="warning" />
         <StatCard label="Approved" value={groups.approved.length} accent="success" />
         <StatCard label="Closed" value={groups.rejected.length} accent="danger" />
@@ -99,21 +99,19 @@ export default function GuardPage() {
       </div>
 
       <Tabs value={tab} onValueChange={setTab} className="w-full">
-        <TabsList className="glass grid grid-cols-2 md:grid-cols-4 w-full">
-          <TabsTrigger value="scanner" className="gap-1.5">
-            <QrCode className="h-4 w-4" />
+        <TabsList className="glass grid grid-cols-2 sm:grid-cols-4 w-full h-auto p-1 gap-1 sm:gap-0">
+          <TabsTrigger value="scanner" className="gap-1 text-xs sm:text-sm py-2">
+            <QrCode className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             <span className="hidden sm:inline">Scanner</span>
           </TabsTrigger>
-          <TabsTrigger value="approved" className="gap-1.5">
-            <span className="hidden sm:inline">Approved</span>
-            <span className="sm:hidden">Appr.</span> · {groups.approved.length}
+          <TabsTrigger value="approved" className="text-xs sm:text-sm py-2 px-1.5 sm:px-3">
+            <span>Appr. {groups.approved.length}</span>
           </TabsTrigger>
-          <TabsTrigger value="pending" className="gap-1.5">
-            <span className="hidden sm:inline">Pending</span>
-            <span className="sm:hidden">Pend.</span> · {groups.pending.length}
+          <TabsTrigger value="pending" className="text-xs sm:text-sm py-2 px-1.5 sm:px-3">
+            <span>Pend. {groups.pending.length}</span>
           </TabsTrigger>
-          <TabsTrigger value="logs" className="gap-1.5">
-            <Clock className="h-4 w-4" />
+          <TabsTrigger value="logs" className="gap-1 text-xs sm:text-sm py-2">
+            <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             <span className="hidden sm:inline">Logs</span>
           </TabsTrigger>
         </TabsList>
@@ -134,7 +132,7 @@ export default function GuardPage() {
           {groups.approved.length === 0 ? (
             <Card className="glass p-10 text-center text-muted-foreground rounded-3xl">No approved visitors</Card>
           ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {groups.approved.map((v) => <GuardCard key={v.id} v={v} onEnter={markEntered} onExit={markExited} />)}
             </div>
           )}
@@ -149,7 +147,7 @@ export default function GuardPage() {
           {groups.pending.length === 0 ? (
             <Card className="glass p-10 text-center text-muted-foreground rounded-3xl">No pending visitors</Card>
           ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {groups.pending.map((v) => <GuardCard key={v.id} v={v} onEnter={markEntered} onExit={markExited} />)}
             </div>
           )}
@@ -160,16 +158,16 @@ export default function GuardPage() {
           {entryLogs.length === 0 ? (
             <Card className="glass p-10 text-center text-muted-foreground rounded-3xl">No entries logged today</Card>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-2 max-h-96 overflow-y-auto">
               {entryLogs.map((log) => (
-                <Card key={log.id} className="glass rounded-2xl p-4 flex items-center justify-between gap-4">
+                <Card key={log.id} className="glass rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold truncate">{log.guest_name}</div>
+                    <div className="font-semibold text-sm truncate">{log.guest_name}</div>
                     <div className="text-xs text-muted-foreground">
                       {new Date(log.scanned_at).toLocaleString()}
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right flex-shrink-0">
                     {log.denied ? (
                       <div className="text-xs px-2 py-1 bg-red-500/20 text-red-700 rounded">Denied</div>
                     ) : (
@@ -212,13 +210,13 @@ function GuardCard({ v, onEnter, onExit }: { v: V; onEnter: (id: string) => void
           <div className="text-muted-foreground text-xs">{new Date(v.created_at).toLocaleString()}</div>
         </div>
         {v.status === "approved" && (
-          <Button size="sm" className="w-full bg-[var(--success)] hover:bg-[var(--success)]/90 text-white border-0 text-xs sm:text-sm" onClick={() => onEnter(v.id)}>
-            <LogIn className="h-4 w-4 mr-1.5" />Mark Entered
+          <Button className="w-full h-9 sm:h-10 bg-[var(--success)] hover:bg-[var(--success)]/90 text-white border-0 text-xs sm:text-sm" onClick={() => onEnter(v.id)}>
+            <LogIn className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5" />Mark Entered
           </Button>
         )}
         {v.status === "entered" && (
-          <Button size="sm" variant="outline" className="w-full text-xs sm:text-sm" onClick={() => onExit(v.id)}>
-            <LogOut className="h-4 w-4 mr-1.5" />Mark Exited
+          <Button variant="outline" className="w-full h-9 sm:h-10 text-xs sm:text-sm" onClick={() => onExit(v.id)}>
+            <LogOut className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5" />Mark Exited
           </Button>
         )}
       </div>
