@@ -80,7 +80,7 @@ export default function LandingPage() {
         </div>
 
         <div className="mt-10 text-center text-xs text-muted-foreground">
-          IF ANY QUERY CONTACT : TIRTH PATEL (HOUSE NO. 83) HELP
+          IF ANY QUERY CONTACT : TIRTH PATEL +91 9313566463 
         </div>
       </section>
     </div>
